@@ -1,0 +1,43 @@
+﻿## Controller
+
+## Model
+1. Colocar o model a trabalhar 
+## View
+
+##  Program.cs
+1	. appSettings.json - Configurações da aplicação. Foi adicionado a configuração de conexão com o banco de dados.
+1	. Foi adicionado project Reference para o projeto de Infraestrutura.
+
+### Services
+1	. Adicionei ApplicationDbContext para fazer a conexão com o banco de dados.
+### Pipeline
+	* Request pipeline significa quando uma requisição é feita, ela passa por uma série de middlewares antes de chegar ao controller.
+	
+
+## Clean Architecture
+1. **Use Cases**: São as classes que representam as regras de negócio da aplicação. Elas são as classes que representam as operações que a aplicação executa.
+1. **Interface Adapters**: São as classes que representam as interfaces da aplicação. Elas são as classes que representam as interfaces que a aplicação expõe.
+1. **Frameworks and Drivers**: São as classes que representam os frameworks e drivers da aplicação. Elas são as classes que representam os frameworks e drivers que a aplicação utiliza.
+
+### Domain Layer
+1. **Entities**: São as classes que representam as entidades do domínio da aplicação. Elas são as classes que representam os objetos que a aplicação manipula.
+1. 
+
+### Infrastructure Layer
+1	. Criar base de dados por add-migration e update-database, temos que alterar o default project para o projeto de infraestrutura no console do gerenciador de pacotes.
+1	. Nunca alterar migration folder. Se queremos alterar propriedades ou outros, devemos adicionar uma nova migration.
+1. Adicionar modelBuilder.Entity<Villa>().HasData() para adicionar dados iniciais no banco de dados.
+
+
+### Nugget Packages
+1. **Microsoft.EntityFrameworkCore.SqlServer**
+1. **Microsoft.EntityFrameworkCore.Design**
+1. **Microsoft.EntityFrameworkCore.Tools**
+
+### Notas sobre Clean Architecture
+Adicionei Class files para cada camada (Domain, Application, Infrastructure)
+Temos que referenciar o projeto de infraestrutura no projeto de aplicação para que possamos usar o ApplicationDbContext.
+
+## Nugget Packages
+1. **Microsoft.EntityFrameworkCore.SqlServer**
+1. **Microsoft.EntityFrameworkCore.Design**

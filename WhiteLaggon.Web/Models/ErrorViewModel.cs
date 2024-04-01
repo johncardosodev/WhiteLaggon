@@ -1,4 +1,4 @@
-namespace WhiteLaggon.Web.Models
+namespace CardosoResort.Web.Models
 {
     public class ErrorViewModel
     {

@@ -1,0 +1,85 @@
+﻿@model List<CardosoResort.Domain.Entities.Villa>
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Lista de alojamentos Cardoso Resort</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <div class="row pb-3">
+            <div class="col-6 offset-6 text-end">
+                <a asp-controller="Villa" asp-action="Create" class="btn btn-secondary">
+                    <i class="bi bi-plus-circle"></i> Criar novo alojamento
+                </a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Descricao)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Preco)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Numero_Quartos)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Metros_Quadrados)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Ocupacao)
+                    </th>
+                    <th>
+                        Opções
+                    </th>
+
+
+
+                </tr>
+            <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Descricao)
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Preco)
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Numero_Quartos)
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Metros_Quadrados)
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Ocupacao)
+                        </td>
+
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Villa" asp-action="Atualizar" asp-route-villaId="@item.Id" class="btn btn-success mx-2">
+                                <i class="bi bi-pencil">Modificar</i>
+                                </a>
+                                <a asp-controller="Villa" asp-action="Apagar" asp-route-villaId="@item.Id" class="btn btn-danger mx-2">
+                                <i class="bi bi-trash">Apagar</i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>

@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using WhiteLaggon.Web.Models;
 
-namespace WhiteLaggon.Web.Controllers
+namespace CardosoResort.Web.Controllers
 {
     public class HomeController : Controller
     {
@@ -26,7 +24,7 @@ namespace WhiteLaggon.Web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }
