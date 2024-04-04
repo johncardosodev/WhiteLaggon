@@ -4,6 +4,7 @@ using CardosoResort.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CardosoResort.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240404214756_MudeiVillaNumeroParaFracao")]
+    partial class MudeiVillaNumeroParaFracao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,7 +96,7 @@ namespace CardosoResort.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaFracao", b =>
+            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaFracoes", b =>
                 {
                     b.Property<int>("Villa_Fracao")
                         .HasColumnType("int");
@@ -125,7 +128,7 @@ namespace CardosoResort.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaFracao", b =>
+            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaFracoes", b =>
                 {
                     b.HasOne("CardosoResort.Domain.Entities.Villa", "Villa")
                         .WithMany()

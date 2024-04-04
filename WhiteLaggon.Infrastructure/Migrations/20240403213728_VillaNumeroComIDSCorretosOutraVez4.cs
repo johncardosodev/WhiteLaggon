@@ -13,16 +13,16 @@ namespace CardosoResort.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "VillaNumeros",
+                name: "VillaFracoes",
                 columns: table => new
                 {
-                    Villa_Numero = table.Column<int>(type: "int", nullable: false),
+                    Villa_Fracao = table.Column<int>(type: "int", nullable: false),
                     VillaId = table.Column<int>(type: "int", nullable: false),
                     Detalhes_Especiais = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VillaNumeros", x => x.Villa_Numero);
+                    table.PrimaryKey("PK_VillaNumeros", x => x.Villa_Fracao);
                     table.ForeignKey(
                         name: "FK_VillaNumeros_Villas_VillaId",
                         column: x => x.VillaId,
@@ -32,8 +32,8 @@ namespace CardosoResort.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "VillaNumeros",
-                columns: new[] { "Villa_Numero", "Detalhes_Especiais", "VillaId" },
+                table: "VillaFracoes",
+                columns: new[] { "Villa_Fracao", "Detalhes_Especiais", "VillaId" },
                 values: new object[,]
                 {
                     { 101, "Vista Mar Lateral", 1 },
@@ -42,7 +42,7 @@ namespace CardosoResort.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_VillaNumeros_VillaId",
-                table: "VillaNumeros",
+                table: "VillaFracoes",
                 column: "VillaId");
         }
 
@@ -50,7 +50,7 @@ namespace CardosoResort.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "VillaNumeros");
+                name: "VillaFracoes");
         }
     }
 }

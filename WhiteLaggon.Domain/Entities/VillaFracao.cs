@@ -1,18 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CardosoResort.Domain.Entities
 {
-    public class VillaNumero
+    public class VillaFracao
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)] //So para testar Key em vez de ID
         [Display(Name = "Numero")]
-        public int Villa_Numero { get; set; } //Em vez de ID, usamos Villa_Numero que é a chave primária e tambem não é auto incremento
+        public int Villa_Fracao { get; set; } //Em vez de ID, usamos Villa_Fracao que é a chave primária e tambem não é auto incremento
 
         [ForeignKey("Villa")] //So para testar ForeignKey
-        [Display(Name = "Villa")]
+        [Display(Name = "Fracção da Villa")]
         public int VillaId { get; set; }
 
+        [ValidateNever]
         public Villa Villa { get; set; } //É uma propriedade de navegação, que é uma propriedade que nos permite navegar de uma entidade para outra
 
         [Display(Name = "Detalhes especiais")]

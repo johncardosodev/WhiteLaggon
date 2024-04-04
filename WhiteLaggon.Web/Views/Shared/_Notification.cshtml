@@ -33,8 +33,22 @@
 
     //Jquery necessario para o toastr
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     //Adiciona o script do toastr
     <script type="text/javascript">
         toastr.success('@TempData["success"]')
+    </script>
+}
+
+@if(TempData["info"] != null) //Se existir uma mensagem de informacao que foi passada pelo controller
+{
+    //Jquery necessario para o toastr
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    //Adiciona o script do toastr
+    <script type="text/javascript">
+        toastr.info('@TempData["info"]')
     </script>
 }

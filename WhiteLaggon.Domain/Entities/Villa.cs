@@ -6,7 +6,6 @@ namespace CardosoResort.Domain.Entities
     {
         public int Id { get; set; }
 
-
         public string Nome { get; set; }
 
         [MaxLength(1000)]
@@ -28,5 +27,14 @@ namespace CardosoResort.Domain.Entities
 
         public DateTime? Data_Criacao { get; set; } //Propriedade que armazena a data de criação do registro
         public DateTime? Data_Atualizacao { get; set; } //Propriedade que armazena a data de atualização do registro
+
+        public bool Equals(Villa villa)
+        {
+            if (villa == null)
+            {
+                return false;
+            }
+            return this.Nome == villa.Nome && this.Descricao == villa.Descricao && this.Preco == villa.Preco && this.Metros_Quadrados == villa.Metros_Quadrados && this.Ocupacao == villa.Ocupacao && this.ImagemUrl == villa.ImagemUrl;
+        }
     }
 }

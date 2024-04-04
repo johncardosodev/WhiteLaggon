@@ -96,9 +96,9 @@ namespace CardosoResort.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaNumero", b =>
+            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaFracoes", b =>
                 {
-                    b.Property<int>("Villa_Numero")
+                    b.Property<int>("Villa_Fracao")
                         .HasColumnType("int");
 
                     b.Property<string>("Detalhes_Especiais")
@@ -107,28 +107,28 @@ namespace CardosoResort.Infrastructure.Migrations
                     b.Property<int>("VillaId")
                         .HasColumnType("int");
 
-                    b.HasKey("Villa_Numero");
+                    b.HasKey("Villa_Fracao");
 
                     b.HasIndex("VillaId");
 
-                    b.ToTable("VillaNumeros");
+                    b.ToTable("VillaFracoes");
 
                     b.HasData(
                         new
                         {
-                            Villa_Numero = 101,
+                            Villa_Fracao = 101,
                             Detalhes_Especiais = "Vista Mar Lateral",
                             VillaId = 1
                         },
                         new
                         {
-                            Villa_Numero = 102,
+                            Villa_Fracao = 102,
                             Detalhes_Especiais = "Suite Oceano",
                             VillaId = 2
                         });
                 });
 
-            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaNumero", b =>
+            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaFracoes", b =>
                 {
                     b.HasOne("CardosoResort.Domain.Entities.Villa", "Villa")
                         .WithMany()

@@ -13,7 +13,7 @@ namespace CardosoResort.Infrastructure.Data
         //Propriedades DbSet que representam as tabelas do banco de dados que serão mapeadas para entidades
         public DbSet<Villa> Villas { get; set; }
 
-        public DbSet<VillaNumero> VillaNumeros { get; set; } //Adicionamos a propriedade DbSet para a entidade VillaNumero
+        public DbSet<VillaFracao> VillaFracoes { get; set; } //Adicionamos a propriedade DbSet para a entidade VillaFracoes
 
         //Sobrescreve o método OnModelCreating para configurar o modelo do banco de dados
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,16 +51,16 @@ namespace CardosoResort.Infrastructure.Data
                     Ocupacao = 3,
                     ImagemUrl = "https://via.placeholder.com/150",
                 });
-            modelBuilder.Entity<VillaNumero>().HasData(
-    new VillaNumero
+            modelBuilder.Entity<VillaFracao>().HasData(
+    new VillaFracao
     {
-        Villa_Numero = 101,
+        Villa_Fracao = 101,
         VillaId = 1,
         Detalhes_Especiais = "Vista Mar Lateral"
     },
-    new VillaNumero
+    new VillaFracao
     {
-        Villa_Numero = 102,
+        Villa_Fracao = 102,
         VillaId = 2,
         Detalhes_Especiais = "Suite Oceano"
     });

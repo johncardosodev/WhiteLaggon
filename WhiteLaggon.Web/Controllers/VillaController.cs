@@ -64,13 +64,16 @@ namespace CardosoResort.Web.Controllers
             {
                 ModelState.AddModelError("Descricao", "O nome e a descrição não podem ser iguais");
             }
+
             if (ModelState.IsValid)
             {
                 _db.Villas.Update(villa);
                 _db.SaveChanges();
                 TempData["success"] = "Villa foi atualizada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
                 return RedirectToAction("Index"); //Se o modelo for válido, redirecionamos para a página de índice
+                return View(); //Se o modelo não for válido mandar de volta para a página de criação
             }
+
             TempData["error"] = "Erro ao atualizar a villa"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
             return View(); //Se o modelo não for válido mandar de volta para a página de criação
         }

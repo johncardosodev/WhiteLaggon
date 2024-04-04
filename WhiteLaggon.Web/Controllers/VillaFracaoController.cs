@@ -1,17 +1,18 @@
 ﻿using CardosoResort.Domain.Entities;
 using CardosoResort.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CardosoResort.Web.Controllers
 {
-    public class VillaNumeroController : Controller
+    public class VillaFracaoController : Controller
     {
         //Com .net Core o contexto do banco de dados é injetado no controlador por meio do construtor
         //Portanto apenas buscamos o DB que já foi configurado no Program.cs e buscamos a implementação do DbContext
         //O que vai configurar a connectionString, abrir connexao e dar a connexao
         private readonly ApplicationDbContext _db;
 
-        public VillaNumeroController(ApplicationDbContext db)
+        public VillaFracaoController(ApplicationDbContext db)
         {
             //Aqui, Dependency Injection é usada para injetar o contexto do banco de dados no controlador
             _db = db;
@@ -19,24 +20,27 @@ namespace CardosoResort.Web.Controllers
 
         public IActionResult Index()
         {
-            var villasNumeros = _db.VillaNumeros.ToList();
-            return View(villasNumeros);
+            var villasFracoes = _db.VillaFracoes.ToList();
+            return View(villasFracoes);
         }
 
         public IActionResult Create()
         {
+            ViewBag.VILLAS = new SelectList(_db.Villas, "Id", "Nome");
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(VillaNumero villaNumero)
+        public IActionResult Create(VillaFracao villaFracao)
         {
-            ModelState.Remove("Villa"); //Removemos a validação do campo VillaId.
+            //ModelState.Remove("Villa"); //caso nao metemos [validadeNever]
+
             if (ModelState.IsValid)
             {
-                _db.VillaNumeros.Add(villaNumero);
+                _db.VillaFracoes.Add(villaFracao);
                 _db.SaveChanges();
-                TempData["success"] = "Numero para a vila foi criada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
+                // TempData["success"] = "Numero para a vila foi criada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
                 return RedirectToAction("Index"); //Se o modelo for válido, redirecionamos para a página de índice
             }
             TempData["error"] = "Erro ao criar a villa"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
@@ -65,10 +69,10 @@ namespace CardosoResort.Web.Controllers
             {
                 _db.Villas.Update(villa);
                 _db.SaveChanges();
-                TempData["success"] = "Villa foi atualizada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
+                //      TempData["success"] = "Villa foi atualizada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
                 return RedirectToAction("Index"); //Se o modelo for válido, redirecionamos para a página de índice
             }
-            TempData["error"] = "Erro ao atualizar a villa"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
+            // TempData["error"] = "Erro ao atualizar a villa"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
             return View(); //Se o modelo não for válido mandar de volta para a página de criação
         }
 
@@ -94,11 +98,11 @@ namespace CardosoResort.Web.Controllers
             {
                 _db.Villas.Remove(villaDb);
                 _db.SaveChanges();
-                TempData["success"] = "Villa foi removida com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
+                //        TempData["success"] = "Villa foi removida com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
                 //palavra success tem que ser igual a que está no arquivo _Layout.cshtml
                 return RedirectToAction("Index");
             }
-            TempData["error"] = "Villa não encontrada"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
+            //    TempData["error"] = "Villa não encontrada"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
             return View();
         }
     }
