@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CardosoResort.Web.Controllers
 {
-    public class VillaController : Controller
+    public class VillaNumeroController : Controller
     {
         //Com .net Core o contexto do banco de dados é injetado no controlador por meio do construtor
         //Portanto apenas buscamos o DB que já foi configurado no Program.cs e buscamos a implementação do DbContext
         //O que vai configurar a connectionString, abrir connexao e dar a connexao
         private readonly ApplicationDbContext _db;
 
-        public VillaController(ApplicationDbContext db)
+        public VillaNumeroController(ApplicationDbContext db)
         {
             //Aqui, Dependency Injection é usada para injetar o contexto do banco de dados no controlador
             _db = db;
@@ -19,8 +19,8 @@ namespace CardosoResort.Web.Controllers
 
         public IActionResult Index()
         {
-            var villas = _db.Villas.ToList();
-            return View(villas);
+            var villasNumeros = _db.VillaNumeros.ToList();
+            return View(villasNumeros);
         }
 
         public IActionResult Create()
@@ -29,17 +29,14 @@ namespace CardosoResort.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Villa villa)
+        public IActionResult Create(VillaNumero villaNumero)
         {
-            if (villa.Nome == villa.Descricao)
-            {
-                ModelState.AddModelError("Descricao", "O nome e a descrição não podem ser iguais");
-            }
+            ModelState.Remove("Villa"); //Removemos a validação do campo VillaId.
             if (ModelState.IsValid)
             {
-                _db.Villas.Add(villa);
+                _db.VillaNumeros.Add(villaNumero);
                 _db.SaveChanges();
-                TempData["success"] = "Villa foi criada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
+                TempData["success"] = "Numero para a vila foi criada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
                 return RedirectToAction("Index"); //Se o modelo for válido, redirecionamos para a página de índice
             }
             TempData["error"] = "Erro ao criar a villa"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação

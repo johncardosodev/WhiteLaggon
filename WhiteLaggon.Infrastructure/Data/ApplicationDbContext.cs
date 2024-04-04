@@ -13,6 +13,8 @@ namespace CardosoResort.Infrastructure.Data
         //Propriedades DbSet que representam as tabelas do banco de dados que serão mapeadas para entidades
         public DbSet<Villa> Villas { get; set; }
 
+        public DbSet<VillaNumero> VillaNumeros { get; set; } //Adicionamos a propriedade DbSet para a entidade VillaNumero
+
         //Sobrescreve o método OnModelCreating para configurar o modelo do banco de dados
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,9 +27,8 @@ namespace CardosoResort.Infrastructure.Data
                     Nome = "Villa Albufeira",
                     Descricao = "Villa com Vista Mar Lateral",
                     Preco = 1000,
-                    Numero_Quartos = 2,
                     Metros_Quadrados = 100,
-                    Ocupacao = 10,
+                    Ocupacao = 3,
                     ImagemUrl = "https://via.placeholder.com/150",
                 },
                 new Villa
@@ -35,10 +36,9 @@ namespace CardosoResort.Infrastructure.Data
                     Id = 2,
                     Nome = "Villa Deluxe",
                     Descricao = "Suite oceano",
-                    Numero_Quartos = 2,
                     Preco = 1000,
                     Metros_Quadrados = 180,
-                    Ocupacao = 10,
+                    Ocupacao = 3,
                     ImagemUrl = "https://via.placeholder.com/150",
                 },
                 new Villa
@@ -47,11 +47,23 @@ namespace CardosoResort.Infrastructure.Data
                     Nome = "Villa Mar",
                     Descricao = "Villa com Vista Mar",
                     Preco = 1000,
-                    Numero_Quartos = 2,
                     Metros_Quadrados = 200,
-                    Ocupacao = 10,
+                    Ocupacao = 3,
                     ImagemUrl = "https://via.placeholder.com/150",
                 });
+            modelBuilder.Entity<VillaNumero>().HasData(
+    new VillaNumero
+    {
+        Villa_Numero = 101,
+        VillaId = 1,
+        Detalhes_Especiais = "Vista Mar Lateral"
+    },
+    new VillaNumero
+    {
+        Villa_Numero = 102,
+        VillaId = 2,
+        Detalhes_Especiais = "Suite Oceano"
+    });
         }
     }
 }

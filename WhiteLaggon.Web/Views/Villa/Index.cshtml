@@ -1,4 +1,4 @@
-﻿@model List<CardosoResort.Domain.Entities.Villa>
+﻿@model List<Villa>
 
 <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
@@ -29,9 +29,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model[0].Preco)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model[0].Numero_Quartos)
-                    </th>
+
                     <th>
                         @Html.DisplayNameFor(model => model[0].Metros_Quadrados)
                     </th>
@@ -59,9 +57,6 @@
                                 @Html.DisplayFor(modelItem => item.Preco)
                         </td>
                         <td>
-                                @Html.DisplayFor(modelItem => item.Numero_Quartos)
-                        </td>
-                        <td>
                                 @Html.DisplayFor(modelItem => item.Metros_Quadrados)
                         </td>
                         <td>
@@ -71,10 +66,10 @@
                         <td>
                             <div class="w-75 btn-group" role="group">
                                 <a asp-controller="Villa" asp-action="Atualizar" asp-route-villaId="@item.Id" class="btn btn-success mx-2">
-                                <i class="bi bi-pencil">Modificar</i>
+                                    <i class="bi bi-pencil">Modificar</i>
                                 </a>
                                 <a asp-controller="Villa" asp-action="Apagar" asp-route-villaId="@item.Id" class="btn btn-danger mx-2">
-                                <i class="bi bi-trash">Apagar</i>
+                                    <i class="bi bi-trash">Apagar</i>
                                 </a>
                             </div>
                         </td>

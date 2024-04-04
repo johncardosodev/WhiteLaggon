@@ -4,6 +4,7 @@ using CardosoResort.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CardosoResort.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240403213000_VillaNumeroComIDSCorretosOutraVez1")]
+    partial class VillaNumeroComIDSCorretosOutraVez1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,49 +94,6 @@ namespace CardosoResort.Infrastructure.Migrations
                             Ocupacao = 3,
                             Preco = 1000.0
                         });
-                });
-
-            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaNumero", b =>
-                {
-                    b.Property<int>("Villa_Numero")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Detalhes_Especiais")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VillaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Villa_Numero");
-
-                    b.HasIndex("VillaId");
-
-                    b.ToTable("VillaNumeros");
-
-                    b.HasData(
-                        new
-                        {
-                            Villa_Numero = 101,
-                            Detalhes_Especiais = "Vista Mar Lateral",
-                            VillaId = 1
-                        },
-                        new
-                        {
-                            Villa_Numero = 102,
-                            Detalhes_Especiais = "Suite Oceano",
-                            VillaId = 2
-                        });
-                });
-
-            modelBuilder.Entity("CardosoResort.Domain.Entities.VillaNumero", b =>
-                {
-                    b.HasOne("CardosoResort.Domain.Entities.Villa", "Villa")
-                        .WithMany()
-                        .HasForeignKey("VillaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Villa");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,7 +2,12 @@
 
 ## Model
 1. Colocar o model a trabalhar 
-## View
+## Views
+### Shared
+1	. Notificação de erro com Toastr usando partial view _notification com CSS do toastr no _Layout.cshtml
+### _imports
+1	. Colocamos a localiza;ao @using CardosoResort.Domain.Entities para chamar as entidades do domínio. Assim as views podem acessar as entidades do domínio diretamente.
+
 
 ##  Program.cs
 1	. appSettings.json - Configurações da aplicação. Foi adicionado a configuração de conexão com o banco de dados.

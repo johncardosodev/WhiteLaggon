@@ -1,4 +1,4 @@
-﻿@model CardosoResort.Domain.Entities.Villa
+﻿@model Villa
 
 <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
@@ -30,11 +30,7 @@
                     <label asp-for="Preco" class="ms-2"></label>
                     <span asp-validation-for="Preco" class="text-danger"></span>
                 </div>
-                <div class="form-floating py-1 col-12">
-                    <input asp-for="Numero_Quartos" class="form-control border shadow" />
-                    <label asp-for="Numero_Quartos" class="ms-2"></label>
-                    <span asp-validation-for="Numero_Quartos" class="text-danger"></span>
-                </div>
+               
                 <div class="form-floating py-1 col-12">
                     <input asp-for="Metros_Quadrados" class="form-control border shadow" />
                     <label asp-for="Metros_Quadrados" class="ms-2"></label>

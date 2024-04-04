@@ -1,0 +1,65 @@
+﻿@model List<VillaNumero>
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Lista de villas Cardoso Resort</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <div class="row pb-3">
+            <div class="col-6 offset-6 text-end">
+                <a asp-controller="VillaNumero" asp-action="Create" class="btn btn-secondary">
+                    <i class="bi bi-plus-circle"></i> Criar nova villa number
+                </a>
+            </div>
+        </div>
+
+        <table class="table" align="center">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Villa.Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Villa_Numero)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Detalhes_Especiais)
+                    </th>
+                    <th>
+                        Opções
+                    </th>
+                </tr>
+            <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.VillaId)
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Villa_Numero)
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Detalhes_Especiais)
+                        </td>
+
+
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="VillaNumero" asp-action="Atualizar" asp-route-villaNumeroId="@item.Villa_Numero" class="btn btn-success mx-2">
+                                    <i class="bi bi-pencil">Modificar</i>
+                                </a>
+                                <a asp-controller="VillaNumero" asp-action="Apagar" asp-route-villaNumeroId="@item.Villa_Numero" class="btn btn-danger mx-2">
+                                    <i class="bi bi-trash">Apagar</i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
