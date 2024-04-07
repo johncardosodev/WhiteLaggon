@@ -1,7 +1,9 @@
 ﻿using CardosoResort.Domain.Entities;
 using CardosoResort.Infrastructure.Data;
+using CardosoResort.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace CardosoResort.Web.Controllers
 {
@@ -20,42 +22,64 @@ namespace CardosoResort.Web.Controllers
 
         public IActionResult Index()
         {
-            var villasFracoes = _db.VillaFracoes.ToList();
+            //Usamos o método Include para incluir a entidade relacionada Villa na consulta. Assim, podemos acessar as propriedades da entidade relacionada na visualização.
+            //Até podemos usar outro Include para incluir mais entidades relacionadas
+            var villasFracoes = _db.VillaFracoes.Include(u => u.Villa).ToList();
             return View(villasFracoes);
         }
 
         public IActionResult Create()
         {
-            ViewBag.VILLAS = new SelectList(_db.Villas, "Id", "Nome");
+            //DropdownList Com viewBag para a view
+            //ViewBag.VILLAS = new SelectList(_db.Villas, "Id", "Nome");
 
-            return View();
+            //Fazer o dropdownList com ViewModel sem usar ViewBag. É mais seguro e mais limpo segundo o livro
+            VillaFracaoVM villaFracaoVM = new VillaFracaoVM //Instanciamos um novo objeto da classe VillaFracaoVM
+            {
+                VillaFracao = new VillaFracao(),
+                VillaLista = new SelectList(_db.Villas, "Id", "Nome")
+            };
+
+            return View(villaFracaoVM);
         }
 
         [HttpPost]
-        public IActionResult Create(VillaFracao villaFracao)
+        public IActionResult Create(VillaFracaoVM objeto)
         {
-            //ModelState.Remove("Villa"); //caso nao metemos [validadeNever]
+            //ModelState.Remove("Villa"); //caso nao metemos [validadeNever] no propriedade  VillaFracao
 
-            if (ModelState.IsValid)
+            //Verificar se existe Villa_Fracao na base de dados com o mesmo numero da villaFracao
+            bool villaFracaoExiste = _db.VillaFracoes.Any(vf => vf.Villa_Fracao == objeto.VillaFracao.VillaId);
+            if (villaFracaoExiste)
             {
-                _db.VillaFracoes.Add(villaFracao);
+                TempData["error"] = "Numero da Fração já existe"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
+                ModelState.AddModelError("Villa_Fracao", "Numero da villa já existe"); //Adicionamos um erro ao modelo
+
+                //Precisamos recarregar a lista de villas para o dropdownList após a validação, caso contrário, a lista será perdida
+                //DropdownList para o ViewModel
+                objeto.VillaLista = new SelectList(_db.Villas, "Id", "Nome");
+                return View(objeto); //Se o modelo não for válido mandar de volta para a página de criação
+            }
+
+            if (ModelState.IsValid && !villaFracaoExiste)
+            {
+                _db.VillaFracoes.Add(objeto.VillaFracao);
                 _db.SaveChanges();
-                // TempData["success"] = "Numero para a vila foi criada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
+                TempData["success"] = "Numero para a vila foi criada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
                 return RedirectToAction("Index"); //Se o modelo for válido, redirecionamos para a página de índice
             }
-            TempData["error"] = "Erro ao criar a villa"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
             return View(); //Se o modelo não for válido mandar de volta para a página de criação
         }
 
-        public IActionResult Atualizar(int villaId)
+        public IActionResult Atualizar(int villaFracaoId)
         {
-            Villa? villa = _db.Villas.FirstOrDefault(v => v.Id == villaId); //Buscamos a villa pelo id
-            if (villa == null) //Se a villa não for encontrada, retornamos um erro 404
+            VillaFracao? villaFracaoObj = _db.VillaFracoes.FirstOrDefault(v => v.Villa_Fracao == villaFracaoId); //Buscamos a fraccao pelo id
+            if (villaFracaoObj == null) //Se a fracao não for encontrada, retornamos um erro 404
             {
                 return RedirectToAction("Error", "Home");
             }
 
-            return View(villa);
+            return View(villaFracaoObj);
         }
 
         [HttpPost]
