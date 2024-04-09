@@ -15,6 +15,8 @@ namespace CardosoResort.Infrastructure.Data
 
         public DbSet<VillaFracao> VillaFracoes { get; set; } //Adicionamos a propriedade DbSet para a entidade VillaFracoes
 
+        public DbSet<Extra> Extras { get; set; } //Adicionamos a propriedade DbSet para a entidade Extra
+
         //Sobrescreve o método OnModelCreating para configurar o modelo do banco de dados
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -64,6 +66,50 @@ namespace CardosoResort.Infrastructure.Data
         VillaId = 2,
         Detalhes_Especiais = "Suite Oceano"
     });
+
+            modelBuilder.Entity<Extra>().HasData(
+        new Extra
+        {
+            Id = 1,
+            Nome = "Piscina",
+            Descricao = "Piscina privada",
+            VillaId = 1
+        },
+        new Extra
+        {
+            Id = 2,
+            Nome = "Jacuzzi",
+            Descricao = "Jacuzzi privada",
+            VillaId = 2
+        },
+            new Extra
+            {
+                Id = 3,
+                Nome = "Quartos familiares",
+                Descricao = "Quartos familiares",
+                VillaId = 1
+            },
+            new Extra
+            {
+                Id = 4,
+                Nome = "Terraço",
+                Descricao = "Terraço",
+                VillaId = 2
+            },
+            new Extra
+            {
+                Id = 5,
+                Nome = "Vista Mar",
+                Descricao = "Vista Mar",
+                VillaId = 1
+            },
+            new Extra
+            {
+                Id = 6,
+                Nome = "Ar condicionado",
+                Descricao = "Ar condicionado",
+                VillaId = 2
+            });
         }
     }
 }

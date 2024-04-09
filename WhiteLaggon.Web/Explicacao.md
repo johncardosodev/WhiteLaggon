@@ -55,7 +55,7 @@ Como adicionar imagens. Adicionamos na view form
 	* No controller, passamos o ViewModel para a view. Assim temos acesso ao model e aos dados que queremos passar para a view.
 
 Clean Tips										
-evemos evitar magic strings. Devemos usar nameOf() para evitar erros de digitação. Exemplo: RedirectToAction(nameof(Index)) em vez de RedirectToAction("Index"). No caso de Index ser renomeado, o compilador irá detectar o erro e nos avisar.
+Devemos evitar magic strings. Devemos usar nameOf() para evitar erros de digitação. Exemplo: RedirectToAction(nameof(Index)) em vez de RedirectToAction("Index"). No caso de Index ser renomeado, o compilador irá detectar o erro e nos avisar.
 Nao funciona com outros actions de outros controllers. Exemplo: RedirectToAction(nameof(HomeController.Index)) não funciona. Devemos usar RedirectToAction(nameof(HomeController.Index), "Home") para funcionar.
 	
 ### Shared

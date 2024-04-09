@@ -7,6 +7,8 @@
 
         IVillaFracaoRepository VillasFracao { get; } //Propriedade VillasFracao do tipo IVillaFracaoRepository que retorna um repositório de villas fracao para interagir com as villas fracao no banco de dados
 
+        IExtraRepository Extras { get; } //Propriedade Extras do tipo IExtraRepository que retorna um repositório de extras para interagir com os extras no banco de dados
+
         //Apenas preciameos de um get, pois não queremos que a classe que implementa a interface IUnitOfWork possa alterar o repositório de villas
         void Save();
     }
