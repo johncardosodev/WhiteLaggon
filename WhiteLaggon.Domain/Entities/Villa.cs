@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CardosoResort.Domain.Entities
 {
@@ -21,6 +23,9 @@ namespace CardosoResort.Domain.Entities
         [Display(Name = "Ocupação")]
         [Range(1, 6)]
         public int Ocupacao { get; set; }
+
+        [NotMapped] //Esta propriedade não será mapeada para a tabela do banco de dados
+        public IFormFile? Imagem { get; set; } //Propriedade que armazena a imagem da villa
 
         [Display(Name = "Imagem Url")]
         public string? ImagemUrl { get; set; }

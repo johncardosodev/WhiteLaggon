@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WhiteLaggon.Domain\CardosoResort.Domain.csproj" />
+    <ProjectReference Include="..\WhiteLaggon.Application\CardosoResort.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,57 +4,62 @@
     <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">Apapgar Villa</h2>
+                <h2 class="text-white py-2">Apagar @Model.Nome</h2>
             </div>
         </div>
     </div>
     <div class="card-body border p-4">
         <form method="post" class="row" enctype="multipart/form-data">
-            <div class="p-3">
-                <input asp-for="Id" hidden /> @*para nao ser visivel. é necessario para o post
-                para saber qual o id do objeto que esta a ser editado. Recomendaçao colocar no inicio do formulario
-                *@
-                <div asp-validation-summary="All"></div> @*linha para colocar todos as validacoes*@
-                <div class="form-floating py-1 col-12">
-                    <input asp-for="Nome" class="form-control border shadow" disabled />
+            <div class="col-10">
+                <div class="p-3">
+                    <input asp-for="Id" hidden /> @*para nao ser visivel. é necessario para o post
+                    para saber qual o id do objeto que esta a ser editado. Recomendaçao colocar no inicio do formulario
+                    *@
+                    <div asp-validation-summary="All"></div> @*linha para colocar todos as validacoes*@
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="Nome" class="form-control border shadow" disabled />
 
-                    <label asp-for="Nome" class="ms-2"></label>
-                    <span asp-validation-for="Nome" class="text-danger"></span>
-                </div>
-                <div class="form-floating py-1 col-12">
-                    <input asp-for="Descricao" class="form-control border shadow" disabled />
-                    <label asp-for="Descricao" class="ms-2"></label>
-                    <span asp-validation-for="Descricao" class="text-danger"></span>
-                </div>
-                <div class="form-floating py-1 col-12">
-                    <input asp-for="Preco" class="form-control border shadow" disabled />
-                    <label asp-for="Preco" class="ms-2"></label>
-                    <span asp-validation-for="Preco" class="text-danger"></span>
-                </div>
-                
-                <div class="form-floating py-1 col-12">
-                    <input asp-for="Metros_Quadrados" class="form-control border shadow" disabled />
-                    <label asp-for="Metros_Quadrados" class="ms-2"></label>
-                    <span asp-validation-for="Metros_Quadrados" class="text-danger"></span>
-                </div>
-                <div class="form-floating py-1 col-12">
-                    <input asp-for="Ocupacao" class="form-control border shadow" disabled />
-                    <label asp-for="Ocupacao" class="ms-2"></label>
-                    <span asp-validation-for="Ocupacao" class="text-danger"></span>
-                </div>
+                        <label asp-for="Nome" class="ms-2"></label>
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="Descricao" class="form-control border shadow" disabled />
+                        <label asp-for="Descricao" class="ms-2"></label>
+                        <span asp-validation-for="Descricao" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="Preco" class="form-control border shadow" disabled />
+                        <label asp-for="Preco" class="ms-2"></label>
+                        <span asp-validation-for="Preco" class="text-danger"></span>
+                    </div>
 
-                <div class="form-floating py-1 col-12">
-                    <input asp-for="ImagemUrl" class="form-control border shadow" disabled />
-                    <label asp-for="ImagemUrl" class="ms-2"></label>
-                    <span asp-validation-for="ImagemUrl" class="text-danger"></span>
-                </div>
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="Metros_Quadrados" class="form-control border shadow" disabled />
+                        <label asp-for="Metros_Quadrados" class="ms-2"></label>
+                        <span asp-validation-for="Metros_Quadrados" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="Ocupacao" class="form-control border shadow" disabled />
+                        <label asp-for="Ocupacao" class="ms-2"></label>
+                        <span asp-validation-for="Ocupacao" class="text-danger"></span>
+                    </div>
 
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="Imagem" class="form-control border shadow" />
+                        <input asp-for="ImagemUrl" hidden class="form-control border shadow" />
+                        <label asp-for="ImagemUrl" class="ms-2"></label>
+                        <span asp-validation-for="ImagemUrl" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
 
+            <div class="col-2">
+                <img src="@Model.ImagemUrl" class="img-fluid align-content-center" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" /> @*imagem do objeto que esta a ser editado*@
+            </div>
             <div class="row pt-2">
                 <div class="col-6 col-md-3">
                     <button type="submit" class="btn btn-danger w-100">
-                        <i class="bi bi-check-circle"></i> Apagar
+                        <i class="bi bi-trash-fill"></i> Apagar
                     </button>
                 </div>
                 <div class="col-6 col-md-3">

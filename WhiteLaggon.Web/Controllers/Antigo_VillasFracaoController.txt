@@ -1,26 +1,30 @@
-﻿using CardosoResort.Application.Common.Interfaces;
-using CardosoResort.Domain.Entities;
+﻿using CardosoResort.Domain.Entities;
+using CardosoResort.Infrastructure.Data;
 using CardosoResort.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace CardosoResort.Web.Controllers
 {
     public class VillaFracaoController : Controller
     {
-        //Usando UnitOfWork
-        private readonly IUnitOfWork _unitOfWork; //Aqui estamos injetando a dependência do IUnitOfWork no controlador
+        //Com .net Core o contexto do banco de dados é injetado no controlador por meio do construtor
+        //Portanto apenas buscamos o DB que já foi configurado no Program.cs e buscamos a implementação do DbContext
+        //O que vai configurar a connectionString, abrir connexao e dar a connexao
+        private readonly ApplicationDbContext _db;
 
-        public VillaFracaoController(IUnitOfWork unitOfWork)
+        public VillaFracaoController(ApplicationDbContext db)
         {
             //Aqui, Dependency Injection é usada para injetar o contexto do banco de dados no controlador
-            _unitOfWork = unitOfWork;
+            _db = db;
         }
 
         public IActionResult Index()
         {
-            var villasFracoes = _unitOfWork.VillasFracao.GetAll(includeProperties: "Villa");//Aqui estamos chamando o método GetAll do repositório de VillaFracao para obter todas as villas fracao com a propriedade de navegação Villa carregada no includeProperties
-
+            //Usamos o método Include para incluir a entidade relacionada Villa na consulta. Assim, podemos acessar as propriedades da entidade relacionada na visualização.
+            //Até podemos usar outro Include para incluir mais entidades relacionadas
+            var villasFracoes = _db.VillaFracoes.Include(u => u.Villa).ToList();
             return View(villasFracoes);
         }
 
@@ -33,14 +37,14 @@ namespace CardosoResort.Web.Controllers
             VillaFracaoVM villaFracaoVM = new VillaFracaoVM //Instanciamos um novo objeto da classe VillaFracaoVM
             {
                 VillaFracao = new VillaFracao(),
-                VillaLista = new SelectList(_unitOfWork.Villas.GetAll(), "Id", "Nome")
+                VillaLista = new SelectList(_db.Villas, "Id", "Nome")
             };
 
             //Verificar se a base de dados tem alguma fracao
-            if (_unitOfWork.VillasFracao.GetAll().Any())
+            if (_db.VillaFracoes.Any())
             {
                 //Iniciamos já a propriedade VillaFracao com o ultimo id+1 da base de dados
-                villaFracaoVM.VillaFracao.Villa_Fracao = _unitOfWork.VillasFracao.GetAll().Max(vf => vf.Villa_Fracao) + 1;
+                villaFracaoVM.VillaFracao.Villa_Fracao = _db.VillaFracoes.Max(vf => vf.Villa_Fracao) + 1;
             }
 
             return View(villaFracaoVM);
@@ -52,7 +56,7 @@ namespace CardosoResort.Web.Controllers
             //ModelState.Remove("Villa"); //caso nao metemos [validadeNever] no propriedade  VillaFracao
 
             //Verificar se existe Villa_Fracao na base de dados com o mesmo numero da villaFracao
-            bool villaFracaoExiste = _unitOfWork.VillasFracao.GetAll().Any(vf => vf.Villa_Fracao == objeto.VillaFracao.VillaId);
+            bool villaFracaoExiste = _db.VillaFracoes.Any(vf => vf.Villa_Fracao == objeto.VillaFracao.VillaId);
             if (villaFracaoExiste)
             {
                 TempData["error"] = "Numero da Fração já existe"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
@@ -60,14 +64,14 @@ namespace CardosoResort.Web.Controllers
 
                 //Precisamos recarregar a lista de villas para o dropdownList após a validação, caso contrário, a lista será perdida
                 //DropdownList para o ViewModel
-                objeto.VillaLista = new SelectList(_unitOfWork.Villas.GetAll(), "Id", "Nome");
+                objeto.VillaLista = new SelectList(_db.Villas, "Id", "Nome");
                 return View(objeto); //Se o modelo não for válido mandar de volta para a página de criação
             }
 
             if (ModelState.IsValid && !villaFracaoExiste)
             {
-                _unitOfWork.VillasFracao.Add(objeto.VillaFracao);
-                _unitOfWork.VillasFracao.Save(); //Salvamos as alterações no banco de dados
+                _db.VillaFracoes.Add(objeto.VillaFracao);
+                _db.SaveChanges();
                 TempData["success"] = "Numero para a vila foi criada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
                 return RedirectToAction(nameof(Index)); //Se o modelo for válido, redirecionamos para a página de índice
             }
@@ -79,8 +83,8 @@ namespace CardosoResort.Web.Controllers
             //DropdownList com viewModel
             VillaFracaoVM? villaFracaoVM = new VillaFracaoVM
             {
-                VillaFracao = _unitOfWork.VillasFracao.Get(v => v.Villa_Fracao == villaFracaoId),
-                VillaLista = new SelectList(_unitOfWork.Villas.GetAll(), "Id", "Nome")
+                VillaFracao = _db.VillaFracoes.FirstOrDefault(v => v.Villa_Fracao == villaFracaoId),
+                VillaLista = new SelectList(_db.Villas, "Id", "Nome")
             };
 
             //Verificar se a fracao foi encontrada
@@ -97,14 +101,14 @@ namespace CardosoResort.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.VillasFracao.Update(objeto.VillaFracao);
-                _unitOfWork.VillasFracao.Save(); //Salvamos as alterações no banco de dados
+                _db.VillaFracoes.Update(objeto.VillaFracao);
+                _db.SaveChanges();
                 TempData["success"] = $"Fração {objeto.VillaFracao.Villa_Fracao} foi atualizada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
                 return RedirectToAction(nameof(Index)); //Se o modelo for válido, redirecionamos para a página de índice
             }
 
             TempData["error"] = "Erro ao atualizar a fração"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
-            objeto.VillaLista = new SelectList(_unitOfWork.Villas.GetAll(), "Id", "Nome"); //Recarregar a lista de villas para o dropdownList após a validação, caso contrário, a lista será perdida
+            objeto.VillaLista = new SelectList(_db.Villas, "Id", "Nome"); //Recarregar a lista de villas para o dropdownList após a validação, caso contrário, a lista será perdida
             return View(objeto); //Se o modelo não for válido mandar de volta para a página de criação
         }
 
@@ -113,8 +117,8 @@ namespace CardosoResort.Web.Controllers
             //DropdownList com viewModel
             VillaFracaoVM? villaFracaoVM = new VillaFracaoVM
             {
-                VillaFracao = _unitOfWork.VillasFracao.Get(v => v.Villa_Fracao == villaFracaoId),
-                VillaLista = new SelectList(_unitOfWork.Villas.GetAll(), "Id", "Nome")
+                VillaFracao = _db.VillaFracoes.FirstOrDefault(v => v.Villa_Fracao == villaFracaoId),
+                VillaLista = new SelectList(_db.Villas, "Id", "Nome")
             };
 
             //Verificar se a fracao foi encontrada
@@ -129,19 +133,19 @@ namespace CardosoResort.Web.Controllers
         [HttpPost]
         public IActionResult Apagar(VillaFracaoVM objeto)
         {
-            VillaFracao? objetoBd = _unitOfWork.VillasFracao.Get(v => v.Villa_Fracao == objeto.VillaFracao.Villa_Fracao);
+            VillaFracao? objetoBd = _db.VillaFracoes.FirstOrDefault(v => v.Villa_Fracao == objeto.VillaFracao.Villa_Fracao);
 
             //Verificar se a fracao foi encontrada
             if (objetoBd is not null)
             {
-                _unitOfWork.VillasFracao.Remove(objetoBd);
-                _unitOfWork.VillasFracao.Save(); //Salvamos as alterações no banco de dados
+                _db.VillaFracoes.Remove(objetoBd);
+                _db.SaveChanges();
                 TempData["success"] = $"Fração {objeto.VillaFracao.Villa_Fracao} foi apagada com sucesso"; //Usamos TempData para enviar uma mensagem de sucesso para a próxima solicitação
                 return RedirectToAction(nameof(Index)); //Se o modelo for válido, redirecionamos para a página de índice com o nameof(Index) para evitar erros de digitação
             }
 
             TempData["error"] = "Erro ao apagar a fração"; //Usamos TempData para enviar uma mensagem de erro para a próxima solicitação
-            objeto.VillaLista = new SelectList(_unitOfWork.Villas.GetAll(), "Id", "Nome"); //Recarregar a lista de villas para o dropdownList após a validação, caso contrário, a lista será perdida
+            objeto.VillaLista = new SelectList(_db.Villas, "Id", "Nome"); //Recarregar a lista de villas para o dropdownList após a validação, caso contrário, a lista será perdida
             return View(objeto); //Se o modelo não for válido mandar de volta para a página de criação
         }
     }

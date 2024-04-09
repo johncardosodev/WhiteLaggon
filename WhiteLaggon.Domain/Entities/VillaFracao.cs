@@ -7,7 +7,8 @@ namespace CardosoResort.Domain.Entities
     public class VillaFracao
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)] //So para testar Key em vez de ID. DatabaseGenerated(DatabaseGeneratedOption.None) para não ser auto incremento
-        [Display(Name = "Numero")]
+        [Display(Name = "Fração")]
+        [RegularExpression(@"^\d{3}$", ErrorMessage = "A fração deve começar com 3 digitos")]
         public int Villa_Fracao { get; set; } //Em vez de ID, usamos Villa_Fracao que é a chave primária e tambem não é auto incremento
 
         [ForeignKey("Villa")] //So para testar ForeignKey

@@ -40,23 +40,22 @@
                 </div>
 
                 <div class="form-floating py-1 col-12">
-                    <input asp-for="ImagemUrl" class="form-control border shadow" />
+                    <input asp-for="ImagemUrl" hidden class="form-control border shadow" />
+                    <input asp-for="Imagem"  class="form-control border shadow" />
                     <label asp-for="ImagemUrl" class="ms-2"></label>
                     <span asp-validation-for="ImagemUrl" class="text-danger"></span>
                 </div>
-
-            </div>
-
-            <div class="row pt-2">
-                <div class="col-6 col-md-3">
-                    <button type="submit" class="btn btn-success w-100">
-                        <i class="bi bi-check-circle"></i> Criar
-                    </button>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a asp-controller="Villa" asp-action="Index" class="btn btn-secondary w-100">
-                        <i class="bi bi-x-circle"></i> Cancelar
-                    </a>
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-check-circle"></i> Criar
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Villa" asp-action="Index" class="btn btn-secondary w-100">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </a>
+                    </div>
                 </div>
             </div>
         </form>
