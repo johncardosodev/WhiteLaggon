@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -32,6 +33,9 @@ namespace CardosoResort.Domain.Entities
 
         public DateTime? Data_Criacao { get; set; } //Propriedade que armazena a data de criação do registro
         public DateTime? Data_Atualizacao { get; set; } //Propriedade que armazena a data de atualização do registro
+
+        [ValidateNever] //Esta propriedade não será validada
+        public IEnumerable<Extra> VillaExtra { get; set; } //Propriedade que armazena a lista de extras da villa
 
         public bool Equals(Villa villa)
         {

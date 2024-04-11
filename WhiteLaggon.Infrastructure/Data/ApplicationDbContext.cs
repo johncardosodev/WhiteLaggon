@@ -1,9 +1,10 @@
 ﻿using CardosoResort.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CardosoResort.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         //Construtor que recebe as opções do contexto que são passadas para a classe base
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -17,10 +18,13 @@ namespace CardosoResort.Infrastructure.Data
 
         public DbSet<Extra> Extras { get; set; } //Adicionamos a propriedade DbSet para a entidade Extra
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; } //Adicionamos a propriedade DbSet para a entidade ApplicationUser.
+        //Esta propriedade não vai ser adicionada ao banco de dados, pois a classe ApplicationUser herda de IdentityUser e já possui uma propriedade DbSet para usuários.
+
         //Sobrescreve o método OnModelCreating para configurar o modelo do banco de dados
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Chama o método OnModelCreating da classe base
+            base.OnModelCreating(modelBuilder); //Chama o método OnModelCreating da classe base, necessário para gerar Identity tables
 
             modelBuilder.Entity<Villa>().HasData(
                 new Villa

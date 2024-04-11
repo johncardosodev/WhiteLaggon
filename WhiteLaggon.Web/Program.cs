@@ -1,6 +1,8 @@
 using CardosoResort.Application.Common.Interfaces;
+using CardosoResort.Domain.Entities;
 using CardosoResort.Infrastructure.Data;
 using CardosoResort.Infrastructure.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,51 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); //Adicionamos o serviço d
 
 //Alteracao para IUnitOfWork
 //builder.Services.AddScoped<IVillaRepository, VillaRepository>(); //Adicionamos o serviço de repositório de Villa ao contêiner de serviços da aplicação. O repositório de Villa é responsável por interagir com a entidade Villa no banco de dados.
+
+/*O código selecionado está adicionando serviços relacionados à autenticação e autorização no contêiner de serviços da aplicação.
+A linha builder.Services.AddIdentity<IdentityUser, IdentityRole>() adiciona o serviço de identidade à aplicação. A identidade é responsável por gerenciar usuários, autenticação e autorização. Neste caso, está sendo utilizado o IdentityUser como modelo para representar os usuários e o IdentityRole para representar os papéis de autorização.
+Em seguida, .AddEntityFrameworkStores<ApplicationDbContext>() configura o serviço de armazenamento da identidade para usar o ApplicationDbContext como o contexto de banco de dados. Isso permite que a identidade armazene e recupere informações relacionadas aos usuários e papéis no banco de dados.
+Por fim, .AddDefaultTokenProviders() adiciona os provedores de token padrão à identidade. Os provedores de token são responsáveis por gerar e validar tokens de autenticação, que são usados para autenticar usuários em solicitações subsequentes.
+Em resumo, esse trecho de código configura a autenticação e autorização da aplicação, permitindo que os usuários se autentiquem, sejam autorizados a acessar recursos específicos e gerencia seus dados de identidade.
+*/
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>() //Adicionamos o serviço de identidade à aplicação, utilizando a classe ApplicationUser como modelo de usuário e IdentityRole como modelo de papel.
+    .AddEntityFrameworkStores<ApplicationDbContext>() //Configuramos o serviço de armazenamento da identidade para usar o ApplicationDbContext como contexto de banco de dados.
+    .AddDefaultTokenProviders(); //Adicionamos os provedores de token padrão à identidade.
+
+/*O código selecionado está configurando o cookie de aplicação para a autenticação e autorização da aplicação.
+Através do método ConfigureApplicationCookie, estamos definindo algumas opções para o cookie.
+A propriedade AccessDeniedPath especifica o caminho para redirecionar o usuário caso ele tente acessar uma página para a qual não possui permissão. Neste caso, o caminho definido é "/Conta/AcessoNegado".
+A propriedade LoginPath especifica o caminho para redirecionar o usuário caso ele precise fazer login para acessar uma determinada página. Neste caso, o caminho definido é "/Conta/Login".
+Essas configurações são importantes para controlar o acesso dos usuários e direcioná-los para as páginas corretas em caso de permissões insuficientes ou necessidade de autenticação.*/
+
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.AccessDeniedPath = "/Conta/AcessoNegado";
+    option.LoginPath = "/Conta/Login";
+});
+
+//Configuração de password
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+
+    // Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;
+});
 
 //########################################################################################################################################## Configuração
 var app = builder.Build();

@@ -1,0 +1,39 @@
+﻿@model Villa
+
+<div class="row">
+    <div class="col-12 col-md-5">
+        <img src="@Model.ImagemUrl" style="border-radius:10px;" width="100%" />
+    </div>
+    <div class="col-12 col-md-7">
+        <div class="row p-2">
+            <div class="col-12">
+                <p class="card-title text-warning" style="font-size:xx-large">@Model.Nome</p>
+                <p class="card-text" style="font-size:large">
+                    @Html.Raw(Model.Descricao)
+                </p>
+                <p class="h5 text-black">
+                    Extras:
+                    @if (Model.VillaExtra.Count() > 0 && Model.VillaExtra != null)
+                    {
+                        @foreach (var extra in Model.VillaExtra)
+                        {
+                            <span class="badge bg-success">@extra.Nome</span>
+                        }
+                    }
+                </p>
+
+            </div>
+        </div>
+        <div class="row col-12">
+            <span class="text-end p-0 pt-3 m-0">
+                <span class="float-right">Máxima Ocupação: @Model.Ocupacao adultos</span><br />
+                <span class="float-right pt-1">Área da Villa : @Model.Metros_Quadrados m<sup>2</sup></span><br />
+                <p class="text-warning font-weight-bold pt-1">
+                    <span style=" #ff6a00">
+                        €@Model.Preco/noite
+                    </span>
+                </p>
+            </span>
+        </div>
+    </div>
+</div>

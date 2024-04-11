@@ -1,9 +1,11 @@
 ﻿using CardosoResort.Application.Common.Interfaces;
 using CardosoResort.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardosoResort.Web.Controllers
 {
+    [Authorize] //Atributo que indica que apenas utilizadores autenticados podem aceder a este controlador
     public class VillaController : Controller
     {
         //##################################################################################################################################Agora usando IVillaRepository
@@ -144,7 +146,6 @@ namespace CardosoResort.Web.Controllers
             Villa? villaDb = _unitOfWork.Villas.Get(v => v.Id == villa.Id); //Buscamos a villa pelo id
             if (villaDb is not null)
             {
-
                 //Sempre que atualizamos, devemos excluir a imagem antiga
                 if (!string.IsNullOrEmpty(villa.ImagemUrl)) //Se a propriedade ImagemUrl da villa não for nula ou vazia
                 {
@@ -156,7 +157,6 @@ namespace CardosoResort.Web.Controllers
                         System.IO.File.Delete(caminhoImagem);
                     }
                 }
-
 
                 _unitOfWork.Villas.Remove(villaDb); //Removemos a villa do repositório
                 _unitOfWork.Villas.Save(); //Salvamos as alterações no banco de dados

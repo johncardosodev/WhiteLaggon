@@ -1,0 +1,70 @@
+﻿@model RegistoVM
+<div class="container pt-5">
+    <div class="card shadow border ">
+        <div class="card-header bg-success bg-gradient ml-0 py-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="py-2 text-white">Novo Registo</h2>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="row pt-3">
+                <div class="col-md-12">
+                    
+                   
+                    <form class="row" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="RedireccionarURL" hidden /> <!--Redireciona para a pagina que o utilizador estava antes de fazer login-->
+
+                        <div class="form-floating mb-3 col-md-12">
+                            <input asp-for="Email" class="form-control" aria-required="true" />
+                            <label asp-for="Email" class="ms-2 text-muted"></label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3 col-md-6">
+                            <input asp-for="Nome" class="form-control" />
+                            <label asp-for="Nome" class="ms-2 text-muted"></label>
+                            <span asp-validation-for="Nome" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-floating mb-3 col-md-6">
+                            <input asp-for="Telemovel" class="form-control" />
+                            <label asp-for="Telemovel" class="ms-2 text-muted"></label>
+                            <span asp-validation-for="Telemovel" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-floating mb-3 col-md-6">
+                            <input asp-for="Password" class="form-control" />
+                            <label asp-for="Password" class="ms-2 text-muted"></label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-floating mb-3 col-md-6">
+                            <input asp-for="ConfirmarPassword" class="form-control" />
+                            <label asp-for="ConfirmarPassword" class="ms-2 text-muted"></label>
+                            <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-6">
+                            <select asp-for="Role" asp-items="@Model.RolesLista" class="form-select">
+                                <option disabled selected>--Selecciona o papel--</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="w-100 btn btn-lg btn-outline-success">Registar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Valida;oes no lado do cliente. Assim, nao ]e preciso fazer post*@
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

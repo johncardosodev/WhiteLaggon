@@ -162,3 +162,24 @@ Remember, the primary benefits of using a repository are improved code organizat
  O padrão de repositório é um padrão de projeto que abstrai a lógica de acesso a dados de uma aplicação. Ele fornece uma interface para acessar os dados de uma aplicação, permitindo que você manipule esses dados sem se preocupar com os detalhes de como eles são armazenados ou recuperados.
  O padrão de repositório é útil quando você precisa acessar dados de várias fontes, como bancos de dados, serviços da web ou arquivos. Ele permite que você altere a fonte de dados sem afetar o restante da aplicação.
  O padrão de repositório é composto por três partes principais: a interface do repositório, a classe concreta do repositório e a classe de contexto de dados. A interface do repositório define os métodos que a classe concreta do repositório deve implementar. A classe concreta do repositório implementa esses métodos e fornece a lógica para acessar os dados. A classe de contexto de dados fornece a conexão com a fonte de dados e executa as operações de acesso a dados.
+
+ ## Identity
+ 1	. Colocar no ApplicationDbContext.cs IdentityDbContext como herança para que possamos usar o Identity.
+ 1	. Adicionar nugget package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+ 1	. Adicionar no Program.cs builder.Services.AddIdentity<IdentityUser, IdentityRole>()    .AddEntityFrameworkStores<ApplicationDbContext>()    .AddDefaultTokenProviders();
+1	. add-migration.
+	1. Problemas a resolver. Temos qie adicionar o base.OnModelCreating(modelBuilder) no ApplicationDbContext.cs para que o Identity funcione.
+	1. Porque keys as tabelas Identity sao geradas no model Creating method no IdentityContext. Se o método nao for invocado, vai dar erro
+1. Criar class Aplication User que herda de IdentityUser para adicionar campos adicionais ao usuário. Exemplo: public class ApplicationUser : IdentityUser
+	1. Adicionar IdentityDbContext<ApplicationUser> no ApplicationDbContext
+	1. Adiciona  public DbSet<ApplicationUser> ApplicationUsers { get; set; } //Adicionamos a propriedade DbSet para a entidade ApplicationUser.
+        //Esta propriedade não vai ser adicionada ao banco de dados, pois a classe ApplicationUser herda de IdentityUser e já possui uma propriedade DbSet para usuários					.
+	1. Agora alteramos o service no program.cs para AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders()						;
+
+	1. 1.Fazemos agora a migração e update-database. Isto vai adicionar os campos ApplicationUser à tabela AspNetUsers.
+
+	##	# Login e registro
+1.  Temos que bind login e registo para um View Model.				
+1. Ver controlador ContaContraller.cs para ver como fazer login e registo.		
+1	. Em vez de usar magic string, nodes devemos ter uma constante na aplicaçao. 
+Esta constante irá ficar no Application layer
